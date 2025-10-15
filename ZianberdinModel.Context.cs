@@ -16,14 +16,13 @@ namespace ZIanberdin_Autoservice
     public partial class Зианбердин_АвтосервисEntities : DbContext
     {
         private static Зианбердин_АвтосервисEntities _context;
-
         public static Зианбердин_АвтосервисEntities GetContext()
         {
             if (_context == null)
                 _context = new Зианбердин_АвтосервисEntities();
-
             return _context;
         }
+
         public Зианбердин_АвтосервисEntities()
             : base("name=Зианбердин_АвтосервисEntities")
         {

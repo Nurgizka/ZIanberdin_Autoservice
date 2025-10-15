@@ -29,6 +29,7 @@ namespace ZIanberdin_Autoservice
             ComboType.SelectedIndex = 0;
             UpdateServices();
         }
+
         private void TBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
             UpdateServices();
@@ -46,6 +47,26 @@ namespace ZIanberdin_Autoservice
         {
             UpdateServices();
         }
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage(null));
+        }
+        private void EditButton_Click(Object sender, RoutedEventArgs e)
+        {
+            Manager.MainFrame.Navigate(new AddEditPage((sender as Button).DataContext as Service));
+        }
+        private void Page_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(Visibility == Visibility.Visible)
+            {
+                Зианбердин_АвтосервисEntities.GetContext().ChangeTracker.Entries().ToList().ForEach(p => p.Reload());
+                ServiceListView.ItemsSource = Зианбердин_АвтосервисEntities.GetContext().Service.ToList();
+            }
+        }
+        
+
+
+
         int CountRecords;
         int CountPage;
         int CurrentPage = 0;
@@ -178,7 +199,7 @@ namespace ZIanberdin_Autoservice
         
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Manager.MainFrame.Navigate(new AddEditPage());
+            Manager.MainFrame.Navigate(new AddEditPage(null));
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

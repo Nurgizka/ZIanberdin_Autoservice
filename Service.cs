@@ -24,16 +24,27 @@ namespace ZIanberdin_Autoservice
         public int ID { get; set; }
         public string Title { get; set; }
         public string MainImagePath { get; set; }
-        public string DurationInSeconds { get; set; }
+        public int DurationInSeconds { get; set; }
         public decimal Cost { get; set; }
-        public double Discount { get; set; }
+        public Nullable<double> Discount { get; set; }
         public int DiscounIt
         {
             get
+
             {
-                return (int)(Discount * 100);
+                if (Discount != null)
+                    return (int)(Discount * 100);
+                else
+                    return 0;
             }
+            set
+            {
+
+                Discount = value / 100.0;
+            }
+
         }
+
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
