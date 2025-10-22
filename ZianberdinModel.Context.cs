@@ -20,9 +20,9 @@ namespace ZIanberdin_Autoservice
         {
             if (_context == null)
                 _context = new Зианбердин_АвтосервисEntities();
+
             return _context;
         }
-
         public Зианбердин_АвтосервисEntities()
             : base("name=Зианбердин_АвтосервисEntities")
         {

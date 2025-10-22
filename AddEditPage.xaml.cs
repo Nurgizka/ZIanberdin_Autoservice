@@ -44,28 +44,46 @@ namespace ZIanberdin_Autoservice
             } 
             if (_currentService.Discount < 0 || _currentService.Discount>100)
             {
-                errors.AppendLine("Укажите скидку");
+                errors.AppendLine("Укажите скидку от 0 до 100");
             }
-            
+            if (_currentService.DurationInSeconds == 0)
+            {
+                errors.AppendLine("Укажите длительность услуги");
+            }
+            if (_currentService.DurationInSeconds > 240 || _currentService.DurationInSeconds < 0)
+            {
+                errors.AppendLine("Длительность не должна быть дольше 240 минут");
+            }
+
             if (errors.Length > 0)
             {
                 MessageBox.Show(errors.ToString());
                 return;
             }
-            if (_currentService.ID == 0)
+            var allServices = Зианбердин_АвтосервисEntities.GetContext().Service.ToList();
+            allServices = allServices.Where(p => p.Title == _currentService.Title).ToList();
+            if(allServices.Count > 0) 
             {
-                Зианбердин_АвтосервисEntities.GetContext().Service.Add(_currentService);
+                if (_currentService.ID == 0)
+                {
+                    Зианбердин_АвтосервисEntities.GetContext().Service.Add(_currentService);
+                }
+                try
+                {
+                    Зианбердин_АвтосервисEntities.GetContext().SaveChanges();
+                    MessageBox.Show("Инфа сохранена");
+                    Manager.MainFrame.GoBack();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message.ToString());
+                }
             }
-            try
+            else
             {
-                Зианбердин_АвтосервисEntities.GetContext().SaveChanges();
-                MessageBox.Show("Инфа сохранена");
-                Manager.MainFrame.GoBack();
+                MessageBox.Show("Уже существует такая услуга");
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message.ToString());
-            }
+          
         }
 
     }
